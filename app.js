@@ -29,13 +29,23 @@ function crearTablaEntrenamiento() {
    entradas = parseInt(document.getElementById("entradas").value);
    salidas = parseInt(document.getElementById("salidas").value);
    casos = parseInt(document.getElementById("casos").value);
-
    let filas = casos;
    let columnas = entradas + salidas;
    let iniciarfilas = 0;
    let ancho = formulario2.clientWidth - (2 * columnas * 2);
    let anchoinput = ancho / columnas;
-   let typeInput = "number";
+   // let typeInput = "number";
+   formulario2.remove();
+
+   let form2 = document.createElement("form");
+   form2.classList.add("formulario2");
+   form2.setAttribute("id", "formulario2");
+
+   let formContenedor2 = document.getElementById("formContenedor2");
+   formContenedor2.appendChild(form2);
+
+   formulario2 = document.getElementById("formulario2")
+
    while (iniciarfilas < filas) {
       let iniciarcolumnas = 0;
       while (iniciarcolumnas < columnas) {
@@ -51,6 +61,7 @@ function crearTablaEntrenamiento() {
          } else {
             input.setAttribute("placeholder", "e")
             input.style.border = "solid 3px lime"
+            input.value = "0";
          }
          input.style.width = anchoinput + "px";
          //input.setAttribute("type", typeInput)
@@ -72,7 +83,18 @@ function crearTablaPrueba() {
    let iniciarfilas = 0;
    let ancho = formulario3.clientWidth - (2 * columnas * 2);
    let anchoinput = ancho / columnas;
-   let typeInput = "number";
+   // let typeInput = "number";
+   formulario3.remove();
+
+   let form3 = document.createElement("form");
+   form3.classList.add("formulario3");
+   form3.setAttribute("id", "formulario3");
+   form3.style.marginBottom = "0px"
+
+   let formContenedor3 = document.getElementById("formContenedor3");
+   formContenedor3.appendChild(form3);
+
+   formulario3 = document.getElementById("formulario3");
 
    while (iniciarfilas < filas) {
       let iniciarcolumnas = 0;
@@ -90,10 +112,11 @@ function crearTablaPrueba() {
          } else {
             input.setAttribute("placeholder", "e")
             input.style.border = "solid 3px lime"
+            input.value = "1";
          }
          input.style.width = anchoinput + "px";
          input.style.marginTop = "50px"
-            //input.setAttribute("type", typeInput)
+         //input.setAttribute("type", typeInput)
          iniciarcolumnas++;
       }
 
@@ -229,7 +252,7 @@ function probarDatos() {
       if ((r % ((entradas + 1)) == 0)) {
          k = 0;
 
-         while (r <= (entradas + salidas)) { // 3 MENOR Q 5
+         while (r <= (entradas + salidas)) {
             if (r == entradas + salidas) {
                calculoSalidasRedNeuronal();
                let rr = entradas;
@@ -267,7 +290,6 @@ function probarDatos() {
    ****************************************************************** */
 let crear = document.getElementById("crear");
 crear.addEventListener("click", function () {
-
    crearTablaEntrenamiento(); // llamamos a la funcion para crear la table de etrenamiento
    crearTablaPrueba();        // llamamos a la funcion para crear la tabla de prueba
 });
@@ -313,12 +335,20 @@ botonEntrenarDatos.addEventListener('click', function () {
          let col = 0;
          while (col < (entradas + salidas)) {
             let id_Input = "x" + row + col;
-            let valueInput = Math.round(parseInt(document.getElementById(id_Input).value));
-            arrayV.push(valueInput);
+            let valueInput = document.getElementById(id_Input).value;
+            if(valueInput == ""){
+               let inputVacio = parseInt(valueInput)
+               inputVacio = 0;
+               arrayV.push(inputVacio);
+            }else{
+               arrayV.push(parseInt(valueInput));
+            }
+
             col++;
          }
          row++;
       }
+      console.log(arrayV)
       // arrayV ----->  Es un array que contiene todos los valores de los
       //                inputs generados dinamicamente. Se obtuvieron en el
       //                anterior  " while (row < casos) "
